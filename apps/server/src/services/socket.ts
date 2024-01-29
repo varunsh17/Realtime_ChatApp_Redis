@@ -1,5 +1,8 @@
 import {Server} from "socket.io";
 import Redis from "ioredis";
+import { produceMessage } from "./kafka";
+
+
 
 const pub = new Redis({
     host:'redis-ef5c5fc-varunsh170502-34d2.a.aivencloud.com',
@@ -43,9 +46,16 @@ class SocketService{
             })
         });
 
-       sub.on('message',(channel,message)=>{
+       sub.on('message',async (channel,message)=>{
         if(channel=== "MESSAGES"){
             io.emit("message",message);
+            // await prismaClient.message.create({
+            //     data:{
+            //         text:message
+            //     }
+            // })
+            await produceMessage(message);
+            console.log("message produced to kafka broker");
         }
        })
     }

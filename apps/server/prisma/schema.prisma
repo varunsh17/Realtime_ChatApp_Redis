@@ -1,0 +1,19 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://avnadmin:AVNS_I8CAwPR8CTWfgy1aH4M@pg-30e0a429-varunsh170502-34d2.a.aivencloud.com:25450/defaultdb?sslmode=require&sslcert=ca.pem"
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("messages")
+}
